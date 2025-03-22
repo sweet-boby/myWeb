@@ -105,7 +105,7 @@ export function KernelErrorPrompt() {
           </div>
           <div className="mt-3 h-[100px] flex flex-col justify-around items-center">
               I swear AI will replace humans
-            <button className="relative w-[120px] h-6 bg-[#BFBFBF] text-sm">
+            <button  className="relative w-[120px] h-6 bg-[#BFBFBF] text-sm">
               <span>OK</span>
               <BorderOverlay />
             </button>
@@ -129,8 +129,9 @@ export function KernelErrorPrompt() {
           Kernel Error
         </div>
         <div className="mt-3 h-[100px] flex flex-col justify-around items-center">
-          I swear AI will replace humans
-          <button className="relative w-[120px] h-6 bg-[#BFBFBF] text-sm">
+          I swear AI will replace humans<br/>
+          AI会取代人类
+          <button onClick={()=>{window.open("/projects")}} className=" cursor-pointer relative w-[120px] h-6 bg-[#BFBFBF] text-sm">
             <span>OK</span>
             <BorderOverlay />
           </button>

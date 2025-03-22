@@ -22,11 +22,11 @@ export function ThreeDCardDemo() {
         >
           <div>
           <p>
-            I am from Beijing, currently live in Hong Kong.
-          Born 2001 Nov 13rd. Me👇
+            I am from Beijing, currently live in Guangdong. Me👇
           </p>
           <p>
-            我来自广西
+            我来自广西，现居住于广东
+
           </p>
           </div>
 

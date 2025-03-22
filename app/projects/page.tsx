@@ -1,26 +1,10 @@
-// components/Chat.tsx
-'use client';
-import { useState,useEffect } from 'react';
-// import useSocket from '@/hooks/useSocket';
 
-export default function Chat() {
-  // const socket = useSocket();
-  // const [message, setMessage] = useState('');
+import ChatRoom from '../../components/ChatRoom';
 
-  // useEffect(() => {
-  //   socket.on('message', (data: string) => {
-  //     console.log('收到服务器消息:', data);
-  //   });
-  // }, [socket]);
-
-  // const sendMessage = () => {
-  //   socket.emit('message', message);
-  //   setMessage('');
-  // };
-
+export default function ProjectsPage() {
   return (
-    <div>
-      hello
+    <div className="flex justify-center items-center  min-h-screen bg-gray-100">
+      <ChatRoom />
     </div>
   );
 }

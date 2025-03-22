@@ -2,6 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useScroll, useTransform, motion, MotionValue, px, calcLength, animate } from "framer-motion";
 import { BoxIcon } from "@radix-ui/react-icons";
+
+
 export function HdScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const box = useRef<HTMLDivElement>(null);
@@ -12,7 +14,7 @@ export function HdScroll() {
   const [isMobile, setIsMobile] = React.useState(false);
   const [scrollY_distance,setScrollY_distance] = React.useState(0)
   // const [scrollX_distance,setScrollX_distance] = React.useState(0)
-  const scrollX_distance = useTransform(scrollYProgress, [0, 1], [innerWidth, box.current?.offsetWidth]);
+  // const scrollX_distance = useTransform(scrollYProgress, [0, 1], [innerWidth, box.current?.offsetWidth]);
   const [isTran, setIsTran] = React.useState(false)
   
   React.useEffect(() => {
@@ -112,7 +114,7 @@ export function HdScroll() {
   // const translate = useTransform(scrollYProgress, [0, 1], [window.innerWidth, -window.innerWidth]);
 
   return (
-    <motion.div ref={containerRef} className="bg-[#F3F4F6] relative min-w-full" style={{ height: isMobile ? "5970px" : "3970px" }}
+    <motion.div ref={containerRef} className="bg-[#F3F4F6] relative min-w-full z-55" style={{ height: isMobile ? "5970px" : "3970px" }}
         initial={{ backgroundColor: "#F3F4F6" }} // 初始颜色
         whileInView={{ backgroundColor: "#000000" }} // 进入视口变色
         viewport={{ once: false, margin: "-30% 0px" }} // 滚动到视口中央30%区域触发
