@@ -21,6 +21,11 @@ export default function ChatRoom() {
       sender: 'system',
       text: 'Type a message and press enter to send.',
       timestamp: Date.now()
+    },
+    {
+      sender: 'system',
+      text: 'Type a message and press enter to send.',
+      timestamp: Date.now()
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -37,11 +42,11 @@ export default function ChatRoom() {
 
   useEffect(() => {
     let mounted = true;
-    
+
     const initializeSocket = async () => {
       const { io } = await import('socket.io-client');
       const socket = io('http://localhost:4000', {
-        auth: { 
+        auth: {
           token: localStorage.getItem('accessToken')
         }
       });
@@ -102,23 +107,22 @@ export default function ChatRoom() {
           <span className="text-sm font-medium">{isConnected ? '已连接' : '连接中...'}</span>
         </div>
       </div>
-      
+
       {/* 消息区域 */}
       <div className="flex-1 p-4 overflow-y-auto">
         <div className="max-w-3xl mx-auto space-y-4">
           {messages.map((msg, i) => (
-            <div 
-              key={`${msg.timestamp}-${i}`} 
+            <div
+              key={`${msg.timestamp}-${i}`}
               className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div 
-                className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg px-4 py-2 shadow-sm ${
-                  msg.sender === 'user' 
-                    ? 'bg-blue-500 text-white rounded-br-none' 
-                    : msg.sender === 'system'
-                      ? 'bg-gray-200 text-gray-700 rounded-tl-none'
-                      : 'bg-white border border-gray-200 text-gray-700 rounded-tl-none'
-                }`}
+              <div
+                className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg px-4 py-2 shadow-sm ${msg.sender === 'user'
+                  ? 'bg-blue-500 text-white rounded-br-none'
+                  : msg.sender === 'system'
+                    ? 'bg-gray-200 text-gray-700 rounded-tl-none'
+                    : 'bg-white border border-gray-200 text-gray-700 rounded-tl-none'
+                  }`}
               >
                 {msg.sender !== 'user' && (
                   <div className="font-medium mb-1 text-sm">
@@ -129,7 +133,7 @@ export default function ChatRoom() {
                   {msg.text}
                 </div>
                 <div className="text-xs opacity-70 mt-1 text-right">
-                  {new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>
             </div>
@@ -152,18 +156,18 @@ export default function ChatRoom() {
                 } else if (e.key === 'Enter' && e.shiftKey) {
                   // 在光标位置插入换行符
                   const cursorPosition = e.currentTarget.selectionStart;
-                  const newValue = 
-                    inputValue.substring(0, cursorPosition) + 
-                    '\n' + 
+                  const newValue =
+                    inputValue.substring(0, cursorPosition) +
+                    '\n' +
                     inputValue.substring(cursorPosition);
                   setInputValue(newValue);
-                  
+
                   // 防止默认的Enter行为
                   e.preventDefault();
-                  
+
                   // 保存当前元素的引用
                   const textarea = e.currentTarget;
-                  
+
                   // 在下一个事件循环中设置光标位置到换行符之后
                   setTimeout(() => {
                     if (textarea && document.contains(textarea)) {
@@ -176,7 +180,7 @@ export default function ChatRoom() {
               placeholder="有问题，尽管问，shift+enter换行"
               className="w-full min-h-[100px] px-4 pt-4 resize-none outline-none"
             />
-            
+
             {/* 底部工具栏 */}
             <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -186,7 +190,7 @@ export default function ChatRoom() {
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
                 </div>
-                
+
                 <div className="flex items-center space-x-1 rounded-md border border-green-200 text-green-600 px-2 py-1">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -195,7 +199,7 @@ export default function ChatRoom() {
                   </svg>
                   <span>深度思考(R1)</span>
                 </div>
-                
+
                 <div className="flex items-center space-x-1 rounded-md border border-gray-200 px-2 py-1">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -204,7 +208,7 @@ export default function ChatRoom() {
                   <span>联网搜索</span>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-2">
                 <button className="p-2 text-gray-500 hover:text-gray-700">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -213,8 +217,8 @@ export default function ChatRoom() {
                     <polyline points="21 15 16 10 5 21"></polyline>
                   </svg>
                 </button>
-                
-                <button 
+
+                <button
                   onClick={handleSend}
                   className="p-2 rounded-full bg-gray-100 hover:bg-gray-200"
                 >
