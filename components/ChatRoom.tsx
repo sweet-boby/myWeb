@@ -13,6 +13,8 @@ export default function ChatRoom() {
   const socketRef = useRef<Socket>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]); // 初始化为空数组
+  const [socketId, setSocketId] = useState("user")
+
 
   useEffect(() => {
     let mounted = true;
@@ -64,14 +66,16 @@ export default function ChatRoom() {
 
     const initializeSocket = async () => {
       const { io } = await import('socket.io-client');
-      const socket = io('http://localhost:4000', {
+      const socket = io('https://updajlapmsks.sealoshzh.site', {
         auth: {
           token: localStorage.getItem('accessToken')
         }
       });
 
       socket.on('connect', () => {
-        if (mounted) setIsConnected(true);
+        if (mounted) {
+          setSocketId(socket.id)
+          setIsConnected(true);}
       });
 
       socket.on('disconnect', () => {
@@ -160,17 +164,17 @@ export default function ChatRoom() {
           {messages.map((msg, i) => (
             <div
               key={`${msg.createdAt.getTime()}-${i}`}
-              className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${msg.sender === socketId ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg px-4 py-2 shadow-sm ${msg.sender === 'user'
+                className={`max-w-xs md:max-w-md lg:max-w-lg rounded-lg px-4 py-2 shadow-sm ${msg.sender === socketId
                   ? 'bg-blue-500 text-white rounded-br-none'
                   : msg.sender === 'system'
                     ? 'bg-gray-200 text-gray-700 rounded-tl-none'
                     : 'bg-white border border-gray-200 text-gray-700 rounded-tl-none'
                   }`}
               >
-                {msg.sender !== 'user' && (
+                {msg.sender !== socketId && (
                   <div className="font-medium mb-1 text-sm">
                     {msg.sender === 'system' ? '系统消息' : msg.sender}
                   </div>
