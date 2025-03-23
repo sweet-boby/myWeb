@@ -5,29 +5,48 @@ import { Socket } from 'socket.io-client';
 type ChatMessage = {
   sender: string;
   text: string;
-  timestamp: number;
+  createdAt: Date;
+  receiver?: string;
 };
 
 export default function ChatRoom() {
   const socketRef = useRef<Socket>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      sender: 'system',
-      text: 'Welcome to the chat!',
-      timestamp: Date.now()
-    },
-    {
-      sender: 'system',
-      text: 'Type a message and press enter to send.',
-      timestamp: Date.now()
-    },
-    {
-      sender: 'system',
-      text: 'Type a message and press enter to send.',
-      timestamp: Date.now()
-    }
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]); // 初始化为空数组
+
+  useEffect(() => {
+    let mounted = true;
+    const abortController = new AbortController();
+
+    const fetchMessages = async () => {
+      try {
+        const response = await fetch('/api/messages', {
+          signal: abortController.signal,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+        const data = await response.json();
+        if (mounted) {
+          setMessages(data.map((msg: any) => ({
+            ...msg,
+            createdAt: new Date(msg.createdAt) // 将字符串转换为Date对象
+          })));
+        }
+      } catch (error) {
+        if (!abortController.signal.aborted) {
+          console.error('消息加载失败:', error);
+        }
+      }
+    };
+
+    fetchMessages();
+    return () => {
+      mounted = false;
+      abortController.abort();
+    };
+  }, []);
+
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -59,11 +78,13 @@ export default function ChatRoom() {
         if (mounted) setIsConnected(false);
       });
 
+      // In socket message handler
       socket.on('message', (raw: string) => {
         try {
           const message = JSON.parse(raw) as ChatMessage;
+          // Convert numeric timestamp to Date
+          message.createdAt = new Date(message.createdAt);
           setMessages(prev => [...prev, message]);
-          console.log(messages)
         } catch (e) {
           console.error('Invalid message:', raw);
         }
@@ -81,19 +102,44 @@ export default function ChatRoom() {
     };
   }, []);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (inputValue.trim()) {
-      socketRef.current?.emit('message', {
-        sender: socketRef.current.id,
+      const newMessage = {
+        sender: socketRef.current?.id || 'user',
         text: inputValue.trim(),
-        timestamp: Date.now()
-      });
-      setInputValue('');
-      setMessages(prev => [...prev, {
-        sender: 'user',
-        text: inputValue.trim(),
-        timestamp: Date.now()
-      }]);
+        createdAt: new Date(),
+        receiver: undefined
+      };
+
+      try {
+        // 发送实时消息
+        socketRef.current?.emit('message', newMessage);
+
+        // 保存到数据库
+        const response = await fetch('/api/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          },
+          body: JSON.stringify({
+            ...newMessage,
+            createdAt: newMessage.createdAt.toISOString()
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('数据库保存失败');
+        }
+
+        // 更新本地状态
+        setInputValue('');
+        setMessages(prev => [...prev, newMessage]);
+
+      } catch (error) {
+        console.error('消息发送失败:', error);
+        // 可以添加错误提示逻辑
+      }
     }
   };
 
@@ -113,7 +159,7 @@ export default function ChatRoom() {
         <div className="max-w-3xl mx-auto space-y-4">
           {messages.map((msg, i) => (
             <div
-              key={`${msg.timestamp}-${i}`}
+              key={`${msg.createdAt.getTime()}-${i}`}
               className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
@@ -133,7 +179,7 @@ export default function ChatRoom() {
                   {msg.text}
                 </div>
                 <div className="text-xs opacity-70 mt-1 text-right">
-                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  {msg.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>
             </div>
@@ -234,4 +280,4 @@ export default function ChatRoom() {
       </div>
     </div>
   );
-} 
+}
