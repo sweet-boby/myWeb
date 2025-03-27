@@ -15,4 +15,4 @@ export default auth((req: any) => {
     return NextResponse.redirect(`${nextUrl.origin}/guest-login`);
 });
 
-export const config = { matcher: ['/protected-route/:path*'] };
+export const config = { matcher: ['/projects/:path*'] };

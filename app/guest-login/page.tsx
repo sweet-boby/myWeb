@@ -9,7 +9,7 @@ export default function GuestLogin() {
     useEffect(() => {
         // 调用生成游客标识的 API
         fetch('/api/guest')
-            .then(() => router.push('/'))
+            .then(() => router.push('/projects'))
             .catch(console.error);
     }, []);
 
