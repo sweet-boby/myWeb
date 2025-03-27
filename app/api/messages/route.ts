@@ -1,5 +1,7 @@
-import { prisma } from '@/lib/prisma';
+import { prisma } from '../../../lib/prisma';
 import { NextResponse } from 'next/server';
+// import { PrismaClient } from '@prisma/client';
+// const prisma = new PrismaClient();
 
 export async function GET() {
     try {
@@ -28,23 +30,37 @@ export async function GET() {
     }
 }
 
+
+
 export async function POST(request: Request) {
     try {
-        const { sender, text, receiver, createdAt } = await request.json();
+        const { sender, text, createdAt, receiver } = await request.json();
+
+        // 验证必填字段
+        if (!sender || !text || !createdAt) {
+            return Response.json(
+                { error: '缺少必要字段' },
+                { status: 400 }
+            );
+        }
 
         const message = await prisma.massage.create({
             data: {
                 sender,
                 text,
-                receiver,
-                createdAt: new Date(createdAt)
+                createdAt: new Date(createdAt),
+                receiver: receiver || null
             }
         });
 
-        return NextResponse.json(message);
+        return Response.json({
+            ...message,
+            createdAt: message.createdAt.toISOString() // 确保日期序列化
+        });
+
     } catch (error) {
-        return NextResponse.json(
-            { error: '消息保存失败' },
+        console.error('数据库错误:', error);
+        return Response.json(
             { status: 500 }
         );
     }

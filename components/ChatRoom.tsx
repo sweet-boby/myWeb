@@ -66,16 +66,17 @@ export default function ChatRoom() {
 
     const initializeSocket = async () => {
       const { io } = await import('socket.io-client');
-      const socket = io('https://updajlapmsks.sealoshzh.site', {
+      const socket = io('http://localhost:4000', {
         auth: {
           token: localStorage.getItem('accessToken')
         }
       });
 
       socket.on('connect', () => {
-        if (mounted) {
+        if (mounted && socket.id) {
           setSocketId(socket.id)
-          setIsConnected(true);}
+          setIsConnected(true);
+        }
       });
 
       socket.on('disconnect', () => {
@@ -107,43 +108,52 @@ export default function ChatRoom() {
   }, []);
 
   const handleSend = async () => {
-    if (inputValue.trim()) {
-      const newMessage = {
-        sender: socketRef.current?.id || 'user',
-        text: inputValue.trim(),
-        createdAt: new Date(),
-        receiver: undefined
-      };
+    if (!inputValue.trim()) return;
 
-      try {
-        // 发送实时消息
-        socketRef.current?.emit('message', newMessage);
+    const newMessage = {
+      sender: socketRef.current?.id || 'user',
+      text: inputValue.trim(),
+      createdAt: new Date(),
+      receiver: undefined
+    };
 
-        // 保存到数据库
-        const response = await fetch('/api/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-          },
-          body: JSON.stringify({
-            ...newMessage,
-            createdAt: newMessage.createdAt.toISOString()
-          })
-        });
+    try {
+      // 1. 发送实时消息
+      socketRef.current?.emit('message', JSON.stringify(newMessage));
 
-        if (!response.ok) {
-          throw new Error('数据库保存失败');
-        }
+      // 2. 保存到数据库（无需授权）
+      const response = await fetch('/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          ...newMessage,
+          createdAt: newMessage.createdAt.toISOString()
+        })
+      });
 
-        // 更新本地状态
-        setInputValue('');
-        setMessages(prev => [...prev, newMessage]);
+      const responseData = await response.json();
 
-      } catch (error) {
-        console.error('消息发送失败:', error);
-        // 可以添加错误提示逻辑
+      if (!response.ok) {
+        throw new Error(responseData.message ||
+          `请求失败: ${response.status} ${response.statusText}`);
       }
+
+      // 3. 更新本地状态
+      setInputValue('');
+      setMessages(prev => [...prev, {
+        ...responseData,
+        createdAt: new Date(responseData.createdAt)
+      }]);
+
+    } catch (error) {
+      console.error('消息处理错误:', {
+        error,
+        time: new Date().toISOString()
+      });
+      alert(`发送失败: ${error instanceof Error ? error.message : String(error)}`);
     }
   };
 
