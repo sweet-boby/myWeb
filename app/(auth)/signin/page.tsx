@@ -2,6 +2,8 @@
 import { useRouter } from 'next/navigation';
 import { loginAction } from './actions';
 // import { signOut } from '@/auth'
+import Link from 'next/link';
+
 export default function SignInPage() {
     const router = useRouter();
 
@@ -54,10 +56,17 @@ export default function SignInPage() {
 
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                    className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 mb-4"
                 >
                     登录
                 </button>
+
+                <div className="text-center text-sm text-gray-600">
+                    没有账号？{' '}
+                    <Link href="/signup" className="text-blue-500 hover:underline">
+                        立即注册
+                    </Link>
+                </div>
             </form>
         </div>
     );

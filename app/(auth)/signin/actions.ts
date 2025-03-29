@@ -10,10 +10,13 @@ export async function loginAction(formData: FormData) {
       });
       return { success: true ,error:null};
   }catch(error){
-    console.log('action err',error.cause.err.message)
+    const errorMessage = error instanceof Error 
+        ? error.message 
+        : '未知错误';
+    console.log('action err', errorMessage);
     return { 
-      error: error instanceof Error ? error.cause : '未知错误',
-      success: false 
+        error: errorMessage,
+        success: false 
     };
   }
 

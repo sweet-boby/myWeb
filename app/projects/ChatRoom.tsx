@@ -1,5 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+// import { Socket } from 'socket.io-client';
+import { socket } from "./socket";
 import { Socket } from 'socket.io-client';
 
 type ChatMessage = {
@@ -48,42 +50,89 @@ const useChatMessages = () => {
   return { messages, setMessages };
 };
 
-const useSocketConnection = () => {
+const useSocketConnection = (setMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>) => {
   const socketRef = useRef<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [socketId, setSocketId] = useState("user");
+  const [transport, setTransport] = useState("N/A");
+  // const socketRef = useRef<Socket | null>(null);
+  // const [isConnected, setIsConnected] = useState(false);
+  // const [socketId, setSocketId] = useState("user");
+
+  // useEffect(() => {
+  //   let mounted = true;
+
+  //   const initializeSocket = async () => {
+  //     const { io } = await import('socket.io-client');
+  //     const socket = io('https://ztsrugygctsp.sealosgzg.site', {
+  //       auth: {
+  //         token: localStorage.getItem('accessToken')
+  //       }
+  //     });
+
+  //     socket.on('connect', () => {
+  //       if (mounted && socket.id) {
+  //         setSocketId(socket.id);
+  //         setIsConnected(true);
+  //       }
+  //     });
+
+  //     socket.on('disconnect', () => {
+  //       if (mounted) setIsConnected(false);
+  //     });
+
+  //     socketRef.current = socket;
+  //     return () => {
+  //       socket.disconnect();
+  //     };
+  //   };
+
+  //   initializeSocket();
+  //   return () => {
+  //     mounted = false;
+  //   };
+  // }, []);
 
   useEffect(() => {
-    let mounted = true;
-
-    const initializeSocket = async () => {
-      const { io } = await import('socket.io-client');
-      const socket = io('http://localhost:4000', {
-        auth: {
-          token: localStorage.getItem('accessToken')
-        }
-      });
-
-      socket.on('connect', () => {
-        if (mounted && socket.id) {
-          setSocketId(socket.id);
-          setIsConnected(true);
-        }
-      });
-
-      socket.on('disconnect', () => {
-        if (mounted) setIsConnected(false);
-      });
-
+    if (socket.connected) {
       socketRef.current = socket;
-      return () => {
-        socket.disconnect();
-      };
-    };
+      onConnect();
+    }
 
-    initializeSocket();
+    function onConnect() {
+      setIsConnected(true);
+      setTransport(socket.io.engine.transport.name);
+
+      socket.io.engine.on("upgrade", (transport) => {
+        setTransport(transport.name);
+      });
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+      setTransport("N/A");
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    socket.on('message', (raw: string) => {
+      try {
+        const message = JSON.parse(raw) as ChatMessage;
+        // 使用函数式更新确保拿到最新状态
+        setMessages(prev => [...prev, {
+          ...message,
+          createdAt: new Date(message.createdAt)  // 确保日期对象化
+        }]);
+      } catch (e) {
+        console.error('消息解析失败:', raw);
+      }
+    });
+
     return () => {
-      mounted = false;
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off('message'); // 增加消息监听器的清理
     };
   }, []);
 
@@ -169,6 +218,7 @@ const MessageInput = ({
             onClick={onSend}
             className="p-2 rounded-full bg-gray-100 hover:bg-gray-200"
           >
+            发送
             {/* 发送图标 */}
           </button>
         </div>
@@ -180,7 +230,7 @@ const MessageInput = ({
 
 export default function ChatRoom({ username = null }: { username?: string | null }) {
   const { messages, setMessages } = useChatMessages();
-  const { socketRef, isConnected, socketId } = useSocketConnection();
+  const { socketRef, isConnected, socketId } = useSocketConnection(setMessages);
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 

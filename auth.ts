@@ -2,9 +2,30 @@ import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import bcrypt from 'bcryptjs'
 import { prisma } from './lib/prisma'
+// import { PrismaAdapter } from "@auth/prisma-adapter"
+
+declare module "next-auth" {
+  interface User {
+    // userid: int
+    name?: string | null
+    account: string
+    role: string
+  }
+
+  interface Session {
+    user: {
+      // id: int
+      name?: string | null
+      account: string
+      role: string
+    }
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   debug: process.env.NODE_ENV === 'development',
+  trustHost: true,
+  // adapter: PrismaAdapter(prisma),
   providers: [
     Credentials({
       name: 'Credentials',
@@ -36,14 +57,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           console.log('认证成功:', JSON.stringify(user, null, 2))  // 使用JSON.stringify确保输出完整对象
           return {
-            id: user.id.toString(),
+            // userid: user.userid.toString(),
             name: user.name,
             account: user.account,
             role: user.role
           }
         } catch (error) {
           console.log('认证错误:', error)
-          throw new Error(error instanceof Error ? error : '认证失败')
+          throw new Error(error instanceof Error ? error.message : '认证失败')
         }
       }
     })
@@ -51,6 +72,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id
+        token.name = user.name
         token.role = user.role
         token.account = user.account
       }
@@ -58,9 +81,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (token) {
-        session.user.role = token.role
-        session.user.account = token.account
-        // session.user.temp = 'aaaa'
+        session.user = {
+          ...session.user,
+          // userid: token.id ,
+          name: token.name ?? null,
+          role: token.role as 'user',
+          account: token.account as string
+        }
       }
       return session
     }

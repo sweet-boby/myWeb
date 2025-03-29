@@ -19,3 +19,7 @@
 // export const config = { matcher: ['/projects/:path*'] };
 
 export { auth as middleware } from "@/auth"
+
+// export const config = {
+//     runtime: 'nodejs' // 切换为 Node.js 环境
+// }
