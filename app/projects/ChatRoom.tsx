@@ -178,7 +178,7 @@ const MessageInput = ({
 };
 
 
-export default function ChatRoom() {
+export default function ChatRoom({ username = null }: { username?: string | null }) {
   const { messages, setMessages } = useChatMessages();
   const { socketRef, isConnected, socketId } = useSocketConnection();
   const [inputValue, setInputValue] = useState('');
@@ -196,7 +196,7 @@ export default function ChatRoom() {
     if (!inputValue.trim()) return;
 
     const newMessage = {
-      sender: socketRef.current?.id || 'user',
+      sender: username || socketRef.current?.id || 'user',
       text: inputValue.trim(),
       createdAt: new Date(),
       receiver: undefined
@@ -257,7 +257,7 @@ export default function ChatRoom() {
             <MessageItem
               key={`${msg.createdAt.getTime()}-${i}`}
               msg={msg}
-              isCurrentUser={msg.sender === socketId}
+              isCurrentUser={msg.sender === username}
             />
           ))}
           <div ref={messagesEndRef} />

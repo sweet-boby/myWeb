@@ -1,13 +1,16 @@
 
-import UserAvatar from '@/components/UserAvatar';
-import ChatRoom from '../../components/ChatRoom';
+import UserAvatar from '@/components/Userinfo';
+import ChatRoom from './ChatRoom';
 import { SignOut } from '@/components/signout-button';
+import { auth } from '@/auth';
+export default async function ProjectsPage() {
+  const session = await auth()
+  // if (!session?.user) return null
 
-export default function ProjectsPage() {
   return (
     <div className="flex justify-center items-center  min-h-screen bg-gray-100">
       <UserAvatar />
-      <ChatRoom />
+      <ChatRoom username={session?.user?.name} />
       <SignOut />
     </div>
   );

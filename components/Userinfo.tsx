@@ -9,6 +9,7 @@ export default async function UserAvatar() {
         <div>
             <div>
                 {session.user.name}
+
             </div>
         </div>
     )

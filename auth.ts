@@ -60,6 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user.role = token.role
         session.user.account = token.account
+        // session.user.temp = 'aaaa'
       }
       return session
     }

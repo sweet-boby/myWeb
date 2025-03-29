@@ -10,7 +10,7 @@ import { TypingAnimation } from "../components/magicui/typing-animation";
 import { MorphingText } from "../components/magicui/morphing-text";
 import { FaGithub } from "react-icons/fa";
 import { SiCsdn } from "react-icons/si";
-import UserAvatar from "../components/UserAvatar";
+import UserAvatar from "../components/Userinfo";
 
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
               <a href="#skills" className="text-gray-700 hover:text-blue-600 transition-colors">
                 技能
               </a>
-              <a href="#projects" className="text-gray-700 hover:text-blue-600 transition-colors">
+              <a href="#projects" onClick={() => window.open('/projects')} className="text-gray-700 hover:text-blue-600 transition-colors">
                 项目
               </a>
               <a href="#favorites" className="text-gray-700 hover:text-blue-600 transition-colors">
