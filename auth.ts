@@ -1,11 +1,9 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
-const prisma = new PrismaClient()
+import { prisma } from './lib/prisma'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-
   debug: process.env.NODE_ENV === 'development',
   providers: [
     Credentials({
@@ -20,14 +18,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             where: { account: credentials.account as string }
           })
 
-          if (!user) return null
+          if (!user) {
+            console.error('用户不存在:', credentials.account)
+            throw new Error('用户不存在')
+            // return { user: null, error: '用户不存在' }
+          }
 
           const isValid = await bcrypt.compare(
             credentials.password as string,
             user.password!
           )
 
-          if (!isValid) return null
+          if (!isValid) {
+            console.error('密码错误:', credentials.account)
+            throw new Error('密码错误')
+          }
 
           console.log('认证成功:', JSON.stringify(user, null, 2))  // 使用JSON.stringify确保输出完整对象
           return {
@@ -37,8 +42,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             role: user.role
           }
         } catch (error) {
-          console.error('认证错误:', error)
-          return null
+          console.log('认证错误:', error)
+          throw new Error(error instanceof Error ? error : '认证失败')
         }
       }
     })
@@ -59,8 +64,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session
     }
   },
-  pages: {
-    signIn: '/signin',
-    error: '/signin'
-  }
 })

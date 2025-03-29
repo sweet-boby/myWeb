@@ -1,7 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { loginAction } from './actions';
-import { SignOut } from './signout-button'
 // import { signOut } from '@/auth'
 export default function SignInPage() {
     const router = useRouter();
@@ -9,19 +8,19 @@ export default function SignInPage() {
     const handleSubmit = async (formData: FormData) => {
         try {
             const result = await loginAction(formData);
-            console.log(result);
-            if (result?.error) {
-                // alert(result.error);
-                return;  // 不再抛出错误，直接返回
-            }
-
+            console.log('登录结果:', result);
             if (result?.success) {
+                alert('登录成功');
                 router.push('/');
                 router.refresh();  // 确保状态更新
+            } else {
+                // console.log('登录失败:', result?.error);
+                alert('登录失败');
             }
-            router.push('/signin');
+            // router.push('/signin');
         } catch (error) {
-            alert(`登录失败: ${(error as Error).message}`);
+            console.log('登录失败:', error);
+            alert(`登录失败: ${(error as Error)}`);
         }
     };
 
@@ -60,7 +59,6 @@ export default function SignInPage() {
                     登录
                 </button>
             </form>
-            <SignOut />
         </div>
     );
 }
