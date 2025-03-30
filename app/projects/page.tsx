@@ -1,25 +1,20 @@
 
-import UserAvatar from '@/components/Userinfo';
-import ChatRoom from './ChatRoom';
-import { SignOut } from '@/components/signout-button';
 import { auth } from '@/auth';
-import Link from 'next/link';
-import ChatRoomDemo from './ChatRoomDemo';
 import Chat from './Chat';
+import Sidebar from '@/components/Sidebar';
+
 export default async function ProjectsPage() {
   const session = await auth()
   // if (!session?.user) return null
 
   return (
-    <div className="flex justify-center items-center  min-h-screen bg-gray-100">
-      <Link href="/signup" className="text-blue-500 hover:underline">
-        立即注册
-      </Link>
-      <UserAvatar />
-      {/* <ChatRoom username={session?.user?.name} /> */}
-      {/* <ChatRoomDemo username={session?.user?.name} /> */}
-      <Chat />
-      <SignOut />
+    <div className=" flex h-screen bg-gray-100">
+      {/* 桌面端侧边栏 - 大屏幕显示，小屏幕隐藏 */}
+
+      <Sidebar session={session} />
+      <div className='flex-1 h-screen'>
+        <Chat username={session?.user?.name} />
+      </div>
     </div>
   );
 }

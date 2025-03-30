@@ -1,16 +1,18 @@
-import { auth } from "@/auth"
+'use client'
+import { Session } from 'next-auth';
 
-export default async function UserAvatar() {
-    const session = await auth()
+interface UserAvatarProps {
+    session: Session | null;
+}
 
-    if (!session?.user) return null
+export default function UserAvatar({ session }: UserAvatarProps) {
+    if (!session?.user) return null;
 
     return (
         <div>
             <div>
                 {session.user.name}
-
             </div>
         </div>
-    )
+    );
 }

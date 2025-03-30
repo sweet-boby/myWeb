@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
     // 关闭 Turbopack
     // turbo: false,
     // 强制使用 Webpack 服务端绑定
-    serverComponentsExternalPackages: ["react-server-dom-webpack"],
+    // serverComponentsExternalPackages: ["react-server-dom-webpack"],
   },
 };
 

@@ -2,4 +2,8 @@
 
 import { io } from "socket.io-client";
 
-export const socket = io('https://ztsrugygctsp.sealosgzg.site');
+const DEVURL = "http://localhost:4000"
+const PROURL = 'https://ztsrugygctsp.sealosgzg.site'
+export const socket = io(PROURL);
+
+
