@@ -6,7 +6,8 @@ import { prisma } from './lib/prisma'
 
 declare module "next-auth" {
   interface User {
-    // userid: int
+    // id: string | undefined
+    userid: number
     name?: string | null
     account: string
     role: string
@@ -15,6 +16,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       // id: int
+      userid: number
       name?: string | null
       account: string
       role: string
@@ -57,7 +59,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           console.log('认证成功:', JSON.stringify(user, null, 2))  // 使用JSON.stringify确保输出完整对象
           return {
-            // userid: user.userid.toString(),
+            id: user.id.toString(),
+            userid: user.id,
             name: user.name,
             account: user.account,
             role: user.role
@@ -72,7 +75,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id
+        token.userid = user.userid
         token.name = user.name
         token.role = user.role
         token.account = user.account
@@ -83,7 +86,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token) {
         session.user = {
           ...session.user,
-          // userid: token.id ,
+          userid: token.userid as number,
           name: token.name ?? null,
           role: token.role as 'user',
           account: token.account as string
