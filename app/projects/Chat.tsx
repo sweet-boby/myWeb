@@ -128,7 +128,7 @@ export default function Chat({ username = null }: { username?: string | null }) 
             socket.off("connect", onConnect);
             socket.off("disconnect", onDisconnect);
             socket.off('message', onMessage); // 增加消息监听器的清理
-            socket.disconnect();
+            // socket.disconnect();
         };
     }, []);
 
