@@ -33,9 +33,9 @@ export default function Home() {
               <a href="#favorites" className="text-gray-700 hover:text-blue-600 transition-colors">
                 爱好
               </a>
-              {/* <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">
-              联系我
-            </a> */}
+              <a href="/chat-ai" className="text-gray-700 hover:text-blue-600 transition-colors">
+                chat-ai
+              </a>
             </div>
           </div>
         </div>

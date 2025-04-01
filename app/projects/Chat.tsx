@@ -139,7 +139,7 @@ export default function Chat({ username = null }: { username?: string | null }) 
         <div className="flex flex-col h-full bg-gray-50  shadow-lg overflow-hidden">
             {/* 头部状态栏 */}
             <div className="bg-white px-6 py-4 border-b flex items-center justify-between">
-                <h1 className="text-xl font-semibold text-gray-800">实时对话</h1>
+                <h1 className="text-xl font-semibold lg:m-0 ml-10 text-gray-800">实时对话</h1>
                 <div className={`flex items-center ${isConnected ? 'text-green-500' : 'text-yellow-500'}`}>
                     <span className={`h-2 w-2 rounded-full mr-2 ${isConnected ? 'bg-green-500' : 'bg-yellow-500'}`}></span>
                     <span className="text-sm">{isConnected ? '已连接' : '连接中...'}</span>

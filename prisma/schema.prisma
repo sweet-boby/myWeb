@@ -10,10 +10,12 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   name      String
-  account   String   @unique
-  password  String?
   role      String   @default("user")
   createdAt DateTime @default(now())
+  password  String?
+  account   String   @unique
+
+  ChatWithAI ChatWithAI[]
 }
 
 model Massage {
@@ -22,4 +24,58 @@ model Massage {
   sender    String
   text      String
   receiver  String?
+}
+
+model ChatWithAI {
+  id        Int      @id @default(autoincrement())
+  chatId    String   @unique
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  title     String
+
+  ChatWithAIMessage ChatWithAIMessage[]
+}
+
+model ChatWithAIMessage {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  chatId    String
+  chat      ChatWithAI @relation(fields: [chatId], references: [chatId])
+  role      String
+  content   String
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model postgres_log {
+  log_time               DateTime? @db.Timestamptz(3)
+  user_name              String?
+  database_name          String?
+  process_id             Int?
+  connection_from        String?
+  session_id             String
+  session_line_num       BigInt
+  command_tag            String?
+  session_start_time     DateTime? @db.Timestamptz(6)
+  virtual_transaction_id String?
+  transaction_id         BigInt?
+  error_severity         String?
+  sql_state_code         String?
+  message                String?
+  detail                 String?
+  hint                   String?
+  internal_query         String?
+  internal_query_pos     Int?
+  context                String?
+  query                  String?
+  query_pos              Int?
+  location               String?
+  application_name       String?
+  backend_type           String?
+  leader_pid             Int?
+  query_id               BigInt?
+
+  @@ignore
 }
