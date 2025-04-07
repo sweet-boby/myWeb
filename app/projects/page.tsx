@@ -9,7 +9,7 @@ export default async function ProjectsPage() {
 
   return (
     <div className=" flex h-screen bg-gray-100">
-      <Sidebar session={session} />
+      <Sidebar session={session} titlePointer={'projects'} />
       <div className='flex-1 h-screen'>
         <Chat username={session?.user?.name} />
       </div>

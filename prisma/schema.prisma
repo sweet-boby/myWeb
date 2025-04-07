@@ -44,6 +44,7 @@ model ChatWithAIMessage {
   chat      ChatWithAI @relation(fields: [chatId], references: [chatId])
   role      String
   content   String
+  reasoning String?
 }
 
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.

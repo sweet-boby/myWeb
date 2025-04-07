@@ -75,12 +75,13 @@ export async function deleteChat(chatId: string) {
 // ===== ChatWithAIMessage 相关操作 =====
 
 // 创建新消息
-export async function createMessage(chatId: string, role: string, content: string) {
+export async function createMessage(chatId: string, role: string, content: string, reasoning?: string) {
   return prisma.chatWithAIMessage.create({
     data: {
       chatId,
       role,
       content,
+      reasoning
     },
   });
 }

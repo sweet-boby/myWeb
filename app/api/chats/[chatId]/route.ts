@@ -5,8 +5,8 @@ import * as chatService from '@/lib/chat-ai';
 // 获取单个聊天及其消息
 export async function GET(
     request: Request,
-    { params }: { params: { chatId: string } }
-) {
+    { params }: { params: Promise<{ chatId: string }> }
+): Promise<NextResponse> {
     const session = await auth();
 
     if (!session?.user) {
@@ -16,7 +16,7 @@ export async function GET(
     try {
         const { chatId } = await params;
         const chat = await chatService.getChatWithMessages(chatId);
-
+        // console.log(chat)
         if (!chat) {
             return NextResponse.json({ error: '聊天不存在' }, { status: 404 });
         }
@@ -36,8 +36,8 @@ export async function GET(
 // 更新聊天标题
 export async function PATCH(
     request: Request,
-    { params }: { params: { chatId: string } }
-) {
+    { params }: { params: Promise<{ chatId: string }> }
+): Promise<NextResponse> {
     const session = await auth();
 
     if (!session?.user) {
@@ -74,8 +74,8 @@ export async function PATCH(
 // 删除聊天
 export async function DELETE(
     request: Request,
-    { params }: { params: { chatId: string } }
-) {
+    { params }: { params: Promise<{ chatId: string }> }
+): Promise<NextResponse> {
     const session = await auth();
 
     if (!session?.user) {
