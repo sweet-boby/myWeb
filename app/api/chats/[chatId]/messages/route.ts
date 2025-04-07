@@ -6,7 +6,7 @@ import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { promises } from 'dns';
 
 const openrouter = createOpenRouter({
-    apiKey: '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',
+    apiKey: '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',
 });
 
 
@@ -100,6 +100,7 @@ export async function POST(
                             reasoning = item.text;
                         } else if ('text' in item) {
                             rescontent = item.text;
+                            // console.log(rescontent)
                         } else if ('file' in item) {
                             // 处理 FilePart 类型
                             // 例如：rescontent = `[File: ${item.file.name}]`;

@@ -4,6 +4,11 @@ import { memo, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 function parseMarkdownIntoBlocks(markdown: string): string[] {
+    // 添加检查，确保 markdown 不是 undefined 或 null
+    if (!markdown) {
+        return [];
+    }
+
     const tokens = marked.lexer(markdown);
     return tokens.map(token => token.raw);
 }

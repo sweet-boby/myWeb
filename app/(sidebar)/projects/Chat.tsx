@@ -22,7 +22,7 @@ export default function Chat({ username = null }: { username?: string | null }) 
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
-    })
+    }, [messages])
 
     // 新增获取历史消息
     useEffect(() => {
@@ -136,7 +136,7 @@ export default function Chat({ username = null }: { username?: string | null }) 
 
 
     return (
-        <div className="flex flex-col h-full bg-gray-50  shadow-lg overflow-hidden">
+        <div className="flex flex-col h-full bg-gray-50  overflow-hidden">
             {/* 头部状态栏 */}
             <div className="bg-white px-6 py-4 border-b flex items-center justify-between">
                 <h1 className="text-xl font-semibold lg:m-0 ml-10 text-gray-800">实时对话</h1>

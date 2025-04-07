@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Session } from 'next-auth';
 import { useEffect, useState } from 'react';
 import { title } from 'process';
-
+import { usePathname } from 'next/navigation'
 interface SidebarProps {
     session: Session | null;
     titlePointer?: string;
@@ -18,29 +18,11 @@ interface Chat {
     userId: number;
 }
 
+// 在 Sidebar 组件中添加事件监听
 export default function Sidebar({ session, titlePointer }: SidebarProps) {
     const [chatData, setChatData] = useState<Chat[] | {}>([]);
-
-    async function createChat(title: string) {
-        try {
-            const res = await fetch(`/api/chats`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    title: title,
-                }),
-            });
-            const data = await res.json();
-            if (data.error) {
-                throw new Error(data.error);
-            }
-            setChatData(data);
-        } catch (error) {
-            console.error('Error creating chat:', error);
-        }
-    }
+    const pathname = usePathname().split('/')
+    titlePointer = pathname[pathname.length - 1]
 
     async function fetchChat() {
         try {
@@ -57,11 +39,22 @@ export default function Sidebar({ session, titlePointer }: SidebarProps) {
             setChatData([]);
         }
     }
+
     useEffect(() => {
         fetchChat();
-        // console.log(chatData)
-    }, [])
 
+        // 添加事件监听器，当创建新聊天时更新聊天列表
+        const handleChatListUpdate = () => {
+            fetchChat();
+        };
+
+        window.addEventListener('chatListUpdated', handleChatListUpdate);
+
+        // 清理函数
+        return () => {
+            window.removeEventListener('chatListUpdated', handleChatListUpdate);
+        };
+    }, []);
 
     // useEffect(() => {
     //     // fetchChat();
@@ -87,7 +80,7 @@ export default function Sidebar({ session, titlePointer }: SidebarProps) {
 
 function SidebarPc({ session, chatData, titlePointer }: { session: Session | null, chatData: Chat[], titlePointer?: string }) {
     return (
-        <div className=" w-64 bg-white  shadow-lg">
+        <div className=" w-64 bg-white  ">
             <div className="p-4 flex flex-1 flex-col h-screen">
                 <div className="flex flex-col items-center mb-6">
                     {/* <UserAvatar session={session} /> */}
@@ -119,7 +112,7 @@ function SidebarPc({ session, chatData, titlePointer }: { session: Session | nul
                             </div>
                         </Link>
                     </div>
-                    <div className=" flex-1 overflow-hidden overflow-y-auto space-y-1 min-h-0">
+                    <div className=" flex-1 no-visible-scrollbar overflow-hidden overflow-y-auto space-y-1 min-h-0">
                         {chatData?.map((chat: Chat) => {
                             return (
                                 <Link href={`/chat-ai/${chat.chatId}`} key={chat.id} className={`${titlePointer == chat.chatId ? 'bg-gray-100' : ''}  flex items-center p-2 space-x-2 text-gray-600 hover:bg-gray-100 rounded`}>
