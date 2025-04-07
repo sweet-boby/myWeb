@@ -33,10 +33,19 @@ export function ChatInterface({
         }
     }, [messages])
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (status === 'ready' && input.trim()) {
+                handleSubmit(e as any);
+            }
+        }
+    };
+
     return (
         <div className='flex flex-col h-screen w-full bg-gray-50'>
             <div className='flex items-center px-6 py-4 border-b bg-white'>
-                <h1 className='text-xl font-semibold text-gray-800'>对话</h1>
+                <h1 className='ml-10 lg:ml-0 text-xl font-semibold text-gray-800'>对话</h1>
                 <div className='ml-4 text-sm text-gray-500'>{status}</div>
             </div>
 
@@ -50,14 +59,15 @@ export function ChatInterface({
                             : ' text-gray-800 '
                             }`}>
                             {message.reasoning && (
-                                <div className='text-red-400 text-sm mb-2 opacity-80'>
+                                <div className='text-gray-500 text-sm mb-2 opacity-80'>
+                                    <div>深度思考</div>
                                     <MemoizedMarkdown
                                         id={`${message.id}-content-${index}`}
                                         content={message.reasoning}
                                     />
                                 </div>
                             )}
-                            <div className='text-sm whitespace-pre-wrap'>
+                            <div className='text-md whitespace-pre-wrap'>
                                 <MemoizedMarkdown
                                     id={`${message.id}-content-${index}`}
                                     content={message.content}
@@ -87,6 +97,7 @@ export function ChatInterface({
                         <textarea
                             value={input}
                             onChange={handleInputChange}
+                            onKeyDown={handleKeyDown}
                             disabled={status !== 'ready'}
                             className='w-full rounded-lg border border-gray-200 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none'
                             rows={3}

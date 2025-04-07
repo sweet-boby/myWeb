@@ -5,6 +5,7 @@ import { Session } from 'next-auth';
 import { useEffect, useState } from 'react';
 import { title } from 'process';
 import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 interface SidebarProps {
     session: Session | null;
     titlePointer?: string;
@@ -17,6 +18,7 @@ interface Chat {
     createdAt: string;
     userId: number;
 }
+
 
 // 在 Sidebar 组件中添加事件监听
 export default function Sidebar({ session, titlePointer }: SidebarProps) {
@@ -71,7 +73,7 @@ export default function Sidebar({ session, titlePointer }: SidebarProps) {
                 <SidebarPc session={session} chatData={chatData as Chat[]} titlePointer={titlePointer} />
             </div>
             <div className='lg:hidden block h-screen relative'>
-                <SidebarMobile session={session} chatData={chatData as Chat[]} />
+                <SidebarMobile session={session} chatData={chatData as Chat[]} titlePointer={titlePointer} />
             </div>
         </>
 
@@ -79,6 +81,36 @@ export default function Sidebar({ session, titlePointer }: SidebarProps) {
 }
 
 function SidebarPc({ session, chatData, titlePointer }: { session: Session | null, chatData: Chat[], titlePointer?: string }) {
+    const router = useRouter();
+    const handleDeleteChat = async (e: React.MouseEvent, chatId: string) => {
+        e.preventDefault(); // 阻止链接跳转
+        if (!confirm('确定要删除这个聊天吗？')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/chats/${chatId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                if (data.error === '未授权') {
+                    alert('请先登录');
+                    return;
+                }
+                throw new Error(data.error || '删除失败');
+            }
+            router.push('/chat-ai')
+            // 发布自定义事件，通知 Sidebar 更新聊天列表
+            const chatUpdatedEvent = new CustomEvent('chatListUpdated');
+            window.dispatchEvent(chatUpdatedEvent);
+        } catch (error) {
+            console.error('删除聊天失败:', error);
+            alert('删除聊天失败');
+        }
+    };
+
     return (
         <div className=" w-64 bg-white  ">
             <div className="p-4 flex flex-1 flex-col h-screen">
@@ -115,8 +147,14 @@ function SidebarPc({ session, chatData, titlePointer }: { session: Session | nul
                     <div className=" flex-1 no-visible-scrollbar overflow-hidden overflow-y-auto space-y-1 min-h-0">
                         {chatData?.map((chat: Chat) => {
                             return (
-                                <Link href={`/chat-ai/${chat.chatId}`} key={chat.id} className={`${titlePointer == chat.chatId ? 'bg-gray-100' : ''}  flex items-center p-2 space-x-2 text-gray-600 hover:bg-gray-100 rounded`}>
-                                    <span>{chat.title}</span>
+                                <Link href={`/chat-ai/${chat.chatId}`} key={chat.id} className={`${titlePointer == chat.chatId ? 'bg-gray-100' : ''}  flex justify-between items-center p-2 space-x-2 text-gray-600 hover:bg-gray-100 rounded`}>
+                                    <span className='flex-1 truncate'>{chat.title}</span>
+                                    <span
+                                        onClick={(e) => handleDeleteChat(e, chat.chatId)}
+                                        className="cursor-pointer hover:text-red-500"
+                                    >
+                                        删除
+                                    </span>
                                 </Link>
                             )
                         })}
@@ -131,8 +169,37 @@ function SidebarPc({ session, chatData, titlePointer }: { session: Session | nul
 }
 
 
-function SidebarMobile({ session, chatData }: { session: Session | null, chatData: Chat[] | null }) {
+function SidebarMobile({ session, chatData, titlePointer }: { session: Session | null, chatData: Chat[], titlePointer?: string }) {
     const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
+    const handleDeleteChat = async (e: React.MouseEvent, chatId: string) => {
+        e.preventDefault();
+        if (!confirm('确定要删除这个聊天吗？')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/chats/${chatId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                if (data.error === '未授权') {
+                    alert('请先登录');
+                    return;
+                }
+                throw new Error(data.error || '删除失败');
+            }
+            router.push('/chat-ai')
+            // 发布自定义事件，通知 Sidebar 更新聊天列表
+            const chatUpdatedEvent = new CustomEvent('chatListUpdated');
+            window.dispatchEvent(chatUpdatedEvent);
+        } catch (error) {
+            console.error('删除聊天失败:', error);
+            alert('删除聊天失败');
+        }
+    };
 
     return (
         <>
@@ -167,8 +234,9 @@ function SidebarMobile({ session, chatData }: { session: Session | null, chatDat
                         <Link href="/" className="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded">
                             <span>首页</span>
                         </Link>
-                        <Link href="/projects" className="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded">
-                            <span>项目</span>
+                        <Link href="/projects" className={`${titlePointer == 'projects' ? 'bg-gray-100' : ''} flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded`}>
+                            {/* {titlePointer} */}
+                            <span>聊天室</span>
                         </Link>
                         {!session?.user && (
                             <Link href="/signin" className="flex items-center p-2 text-blue-500 hover:bg-gray-100 rounded">
@@ -188,8 +256,14 @@ function SidebarMobile({ session, chatData }: { session: Session | null, chatDat
                         <div className="flex-1 overflow-hidden overflow-y-auto space-y-1 min-h-0">
                             {chatData?.map((chat: Chat) => {
                                 return (
-                                    <Link href={`/chat-ai/${chat.chatId}`} key={chat.id} className="flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded">
-                                        <span>{chat.title}</span>
+                                    <Link href={`/chat-ai/${chat.chatId}`} key={chat.id} className={`${titlePointer == chat.chatId ? 'bg-gray-100' : ''}  flex justify-between items-center p-2 space-x-2 text-gray-600 hover:bg-gray-100 rounded`}>
+                                        <span className='flex-1 truncate'>{chat.title}</span>
+                                        <span
+                                            onClick={(e) => handleDeleteChat(e, chat.chatId)}
+                                            className="cursor-pointer hover:text-red-500"
+                                        >
+                                            删除
+                                        </span>
                                     </Link>
                                 )
                             })}

@@ -7,7 +7,20 @@ import { useState, useEffect } from 'react';
 import { ChatInterface } from '../ChatInterface';
 
 export default function PageLayout({ session }: { session: Session | null }) {
-    const [model, setModel] = useState('deepseek/deepseek-r1:free');
+    // 从 localStorage 获取上次使用的模型，如果没有则使用默认值
+    const [model, setModel] = useState(() => {
+        // 确保代码在客户端执行
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('selectedModel') || 'deepseek/deepseek-r1:free';
+        }
+        return 'deepseek/deepseek-r1:free';
+    });
+
+    // 当模型变化时，保存到 localStorage
+    useEffect(() => {
+        localStorage.setItem('selectedModel', model);
+    }, [model]);
+
     const { messages, input, handleInputChange, handleSubmit, status, stop } =
         useChat({
             body: {
