@@ -47,6 +47,12 @@ model ChatWithAIMessage {
   reasoning String?
 }
 
+model SharedCanvas {
+  id        Int      @id @default(autoincrement())
+  imageData String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.

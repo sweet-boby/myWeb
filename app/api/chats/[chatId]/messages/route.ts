@@ -3,10 +3,9 @@ import { auth } from '@/auth';
 import * as chatService from '@/lib/chat-ai';
 import { streamText, UIMessage, appendResponseMessages } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { promises } from 'dns';
 
 const openrouter = createOpenRouter({
-    apiKey: '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',
+    apiKey: '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',
 });
 
 
@@ -113,8 +112,11 @@ export async function POST(
                 }
 
                 const message2 = await chatService.createMessage(chatId, response.messages[0].role, rescontent, reasoning);
-                //console.log('message', message2);
+                console.log('message', rescontent);
                 // await appendResponseMessages(messages, response);
+            },
+            onError(error) {
+                console.error('Error:', error);
             }
         });
 

@@ -129,6 +129,11 @@ function SidebarPc({ session, chatData, titlePointer }: { session: Session | nul
                         {/* {titlePointer} */}
                         <span>聊天室</span>
                     </Link>
+                    <Link href="/pixel" className={`${titlePointer == 'pixel' ? 'bg-gray-100' : ''} flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded`}>
+                        {/* {titlePointer} */}
+                        <span>涂鸦</span>
+                    </Link>
+
                     {!session?.user && (
                         <Link href="/signin" className="flex items-center p-2 text-blue-500 hover:bg-gray-100 rounded">
                             <span>立即登录</span>
@@ -237,6 +242,10 @@ function SidebarMobile({ session, chatData, titlePointer }: { session: Session |
                         <Link href="/projects" className={`${titlePointer == 'projects' ? 'bg-gray-100' : ''} flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded`}>
                             {/* {titlePointer} */}
                             <span>聊天室</span>
+                        </Link>
+                        <Link href="/pixel" className={`${titlePointer == 'pixel' ? 'bg-gray-100' : ''} flex items-center p-2 text-gray-600 hover:bg-gray-100 rounded`}>
+                            {/* {titlePointer} */}
+                            <span>涂鸦</span>
                         </Link>
                         {!session?.user && (
                             <Link href="/signin" className="flex items-center p-2 text-blue-500 hover:bg-gray-100 rounded">
