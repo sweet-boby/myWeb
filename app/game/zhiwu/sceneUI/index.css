@@ -1,0 +1,15 @@
+#progress-bar-mp::-webkit-progress-bar {
+  background-color: #e0e0e0;
+}
+
+#progress-bar-mp::-webkit-progress-value {
+  background: blue;
+}
+
+#progress-bar-hp::-webkit-progress-bar {
+  background-color: #e0e0e0;
+}
+
+#progress-bar-hp::-webkit-progress-value {
+  background: red;
+}
