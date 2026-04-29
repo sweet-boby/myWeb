@@ -32,7 +32,7 @@ export function ThreeDCardDemo() {
           className="w-full mt-4"
         >
           <Image
-            src={"/img/wo2.png"}
+            src={publicPath("/img/wo2.png")}
             height="1000"
             width="1000"
             className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
@@ -46,7 +46,7 @@ export function ThreeDCardDemo() {
           className="w-full mt-4"
         >
           <Image
-            src={"/img/wo1.jpg"}
+            src={publicPath("/img/wo1.jpg")}
             height="1000"
             width="1000"
             className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
