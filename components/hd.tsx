@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useScroll, useTransform, motion, MotionValue, px, calcLength, animate } from "framer-motion";
 import { BoxIcon } from "@radix-ui/react-icons";
+import { publicPath } from "@/lib/utils";
 
 
 export function HdScroll() {
@@ -177,12 +178,12 @@ export function HdScroll() {
               whileInView={{ opacity: isTran ? 1 : 0 }}
               viewport={{ once: false, margin: "-30% 0px" }}
           >
-                  <img src="/img/1030.png" className={`absolute z-100 ${isMobile ? 'w-7/10 left-0' : 'w-5/10'} translate-y-[-30%]`}></img>
+                  <img src={publicPath("/img/1030.png")} className={`absolute z-100 ${isMobile ? 'w-7/10 left-0' : 'w-5/10'} translate-y-[-30%]`}></img>
                   <TransformText mycontents={
-                ["/img/feiji.png","/img/feiji4.png","/img/feiji5.png"]
+                [publicPath("/img/feiji.png"),publicPath("/img/feiji4.png"),publicPath("/img/feiji5.png")]
               } isTran={isTran} speed={300} className={`absolute z-100 text-amber-300 ${isMobile ? 'h-60 w-7/10 right-0' : 'h-78 w-5/10 right-15'} top-0 translate-y-[-35%]`}/>
-                  <img src="/img/10302.png" className={`absolute z-100 ${isMobile ? 'w-7/10' : 'w-5/10'} right-0 top-0 translate-y-[100%] translate-x-[15%]`}></img>
-                  <img src="/img/10303.png" className={`absolute z-100 ${isMobile ? 'w-8/10' : 'w-6/10'} right-0 bottom-0 translate-y-[60%]`}></img>
+                  <img src={publicPath("/img/10302.png")} className={`absolute z-100 ${isMobile ? 'w-7/10' : 'w-5/10'} right-0 top-0 translate-y-[100%] translate-x-[15%]`}></img>
+                  <img src={publicPath("/img/10303.png")} className={`absolute z-100 ${isMobile ? 'w-8/10' : 'w-6/10'} right-0 bottom-0 translate-y-[60%]`}></img>
           </motion.div>
 
 
@@ -191,13 +192,13 @@ export function HdScroll() {
               whileInView={{ opacity: isTran ? 1 : 0 }}
               viewport={{ once: false, margin: "-30% 0px" }}
           >
-            <img src="/img/bb.png" className={`absolute z-100 ${isMobile ? 'w-9/10 left-0' : 'w-8/10'} translate-y-[-30%]`}></img>
+            <img src={publicPath("/img/bb.png")} className={`absolute z-100 ${isMobile ? 'w-9/10 left-0' : 'w-8/10'} translate-y-[-30%]`}></img>
               <TransformText mycontents={
-                ["/img/ai1.png","/img/ai2.png","/img/ai3.png"]
+                [publicPath("/img/ai1.png"),publicPath("/img/ai2.png"),publicPath("/img/ai3.png")]
               } isTran={isTran} speed={100} className={`absolute z-100 text-amber-300 ${isMobile ? 'h-80 w-3/10' : 'h-100 w-2/10'} right-15 top-0 translate-y-[-35%]`}/>
-            <img src="/img/bb2.png" className={`absolute z-100 ${isMobile ? 'w-8/10' : 'w-7/10'} bottom-0 translate-y-[60%]`}></img>
+            <img src={publicPath("/img/bb2.png")} className={`absolute z-100 ${isMobile ? 'w-8/10' : 'w-7/10'} bottom-0 translate-y-[60%]`}></img>
             <TransformText mycontents={
-                ["/img/zl1.png","/img/zl2.png","/img/zl3.png"]
+                [publicPath("/img/zl1.png"),publicPath("/img/zl2.png"),publicPath("/img/zl3.png")]
               } isTran={isTran} speed={100} className={`absolute z-100 text-amber-300 ${isMobile ? 'h-80 w-4/10' : 'h-100 w-3/10'} right-15 bottom-0 translate-y-[50%]`}/>
           </motion.div>
 
@@ -210,16 +211,16 @@ export function HdScroll() {
                 duration:1,
               }}
           >
-              <img src="/img/tz1.png" className={`absolute z-100 ${isMobile ? 'w-9/10 left-0' : 'w-8/10'} translate-y-[-40%]`}></img>
-              <img src="/img/tz2.png" className={`absolute z-100 ${isMobile ? 'w-9/10' : 'w-8/10'} right-0 bottom-0 z-155 translate-y-[40%]`}></img>
+              <img src={publicPath("/img/tz1.png")} className={`absolute z-100 ${isMobile ? 'w-9/10 left-0' : 'w-8/10'} translate-y-[-40%]`}></img>
+              <img src={publicPath("/img/tz2.png")} className={`absolute z-100 ${isMobile ? 'w-9/10' : 'w-8/10'} right-0 bottom-0 z-155 translate-y-[40%]`}></img>
           </motion.div>
         </motion.div>
 
         
         <div className={`${isMobile ? 'w-full h-[80vh] ml-0 mb-[2rem] px-4' : 'h-full w-4/13 ml-[5rem]'} bg-amber-300 rounded-4xl truncate relative`}>
-        <img src="/img/taozhe3.jpg" alt="" className="h-full w-full object-cover absolute top-0 bottom-0 left-0 right-0 z-5"/>
+        <img src={publicPath("/img/taozhe3.jpg")} alt="" className="h-full w-full object-cover absolute top-0 bottom-0 left-0 right-0 z-5"/>
         <p className={`${isMobile ? 'text-7xl' : 'text-9xl'} text-red-300 absolute top-10 right-5 z-10 font-extrabold text-white`}>1997</p>
-        <motion.img src="/img/Davidtao.jpg" alt="" className={`${isMobile ? 'h-40 w-40' : 'h-50 w-50'} object-cover absolute bottom-0 z-6`}
+        <motion.img src={publicPath("/img/Davidtao.jpg")} alt="" className={`${isMobile ? 'h-40 w-40' : 'h-50 w-50'} object-cover absolute bottom-0 z-6`}
             style={
               {
                 // left:'calc(-200% + -10rem)'
@@ -237,9 +238,9 @@ export function HdScroll() {
           />
         </div>
         <div className={`${isMobile ? 'w-full h-[80vh] ml-0 mb-[2rem] px-4' : 'h-full w-4/13 ml-[5rem]'} bg-cyan-800 rounded-4xl truncate relative`}>
-        <img src="/img/taozhe2.jpg" alt="" className="h-full w-full object-cover absolute top-0 bottom-0 left-0 right-0 z-5"/>
+        <img src={publicPath("/img/taozhe2.jpg")} alt="" className="h-full w-full object-cover absolute top-0 bottom-0 left-0 right-0 z-5"/>
         <p className={`${isMobile ? 'text-7xl' : 'text-9xl'} text-red-300 absolute top-10 right-5 z-10 font-extrabold text-white`}>1999</p>
-        <motion.img src="/img/Imok.jpg" alt="" className={`${isMobile ? 'h-40 w-40' : 'h-50 w-50'} object-cover absolute bottom-0 z-6`}
+        <motion.img src={publicPath("/img/Imok.jpg")} alt="" className={`${isMobile ? 'h-40 w-40' : 'h-50 w-50'} object-cover absolute bottom-0 z-6`}
             style={
               {
                 left: isMobile ? '0' : 'calc(-100% + -5rem)' // 小屏设备重置初始位置
@@ -257,9 +258,9 @@ export function HdScroll() {
           />
         </div>
         <div className={`${isMobile ? 'w-full h-[80vh] ml-0 mb-[2rem] px-4' : 'h-full w-4/13 ml-[5rem]'} bg-amber-100 rounded-4xl truncate relative`}>
-          <img src="/img/taozhe1.jpg" alt="" className="h-full w-full object-cover absolute top-0 bottom-0 left-0 right-0 z-5"/>
+          <img src={publicPath("/img/taozhe1.jpg")} alt="" className="h-full w-full object-cover absolute top-0 bottom-0 left-0 right-0 z-5"/>
           <p className={`${isMobile ? 'text-7xl' : 'text-9xl'} text-red-300 absolute top-10 right-5 z-10 font-extrabold text-white`}>2002</p>
-          <motion.img src="/img/Heiseliuding.jpg" alt="" className={`${isMobile ? 'h-40 w-40' : 'h-50 w-50'} object-cover absolute bottom-0 z-6`}
+          <motion.img src={publicPath("/img/Heiseliuding.jpg")} alt="" className={`${isMobile ? 'h-40 w-40' : 'h-50 w-50'} object-cover absolute bottom-0 z-6`}
             style={
               {
                 left: isMobile ? '0' : 'calc(-200% + -10rem)' // 小屏设备重置初始位置
@@ -308,7 +309,7 @@ const TransformText = ({ isTran ,className,speed,mycontents}: { isTran: boolean 
   return <div className={className}>
         {
           contents?.map((item,index) => {
-            return (<img src={item} key={index} className={`${index === currentIndex ? 'block' : 'hidden'} object-cover h-full`}></img>)
+            return (<img src={item} key={index} className={`${index === currentIndex ? 'block' : 'hidden'} object-cover h-full`} />)
           })
         }
     </div>

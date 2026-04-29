@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build && node postbuild.js",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "preview": "node preview.js"
+    "preview": "pwsh -File preview.ps1"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",

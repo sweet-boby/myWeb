@@ -1,11 +1,12 @@
 'use client'
-import {  ThreeDCardDemo} from '../components/3dc'
+import { ThreeDCardDemo } from '../components/3dc'
 import { BentoGridDemo } from '../components/btg'
 import { HeroScrollDemo } from '../components/csa';
 import { TimelineDemo } from '../components/timeline';
 import { TabsDemo } from '../components/tab';
 
 import { HdScroll } from '../components/hd'
+import { publicPath } from '@/lib/utils'
 import { TypingAnimation } from "../components/magicui/typing-animation";
 import { MorphingText } from "../components/magicui/morphing-text";
 import { FaGithub } from "react-icons/fa";
@@ -75,7 +76,7 @@ const Myfavourite = () => {
   return (
     <div>
       <div className={" text-5xl justify-self-center items-center lg:w-5xl text-wrap text-center my-10"}>
-          <img src="/img/myfavourite.png"/>
+          <img src={publicPath("/img/myfavourite.png")}/>
       </div>
       <HdScroll></HdScroll>
       <TabsDemo></TabsDemo>
@@ -87,7 +88,7 @@ const Myskill = () => {
   return (
     <div>
       <div className={"text-5xl justify-self-center items-center lg:w-5xl text-wrap text-center my-35"}>
-        <img src="/img/myskill.png"/>        
+        <img src={publicPath("/img/myskill.png")}/>        
       </div>
       <div>
         <BentoGridDemo></BentoGridDemo>
@@ -109,7 +110,7 @@ const TopHome = () => {
             </b>
       </div>
       <div className="mt-10 flex items-center ">
-        <img src="/img/avatar1.jpg" className="size-40 rounded-full  m-[-15] " />
+        <img src={publicPath("/img/avatar1.jpg")} className="size-40 rounded-full  m-[-15] " />
         <div className="text-2xl lg:text-5xl pl-10">
           <b>
             I'm 
