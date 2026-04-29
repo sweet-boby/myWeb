@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build && node postbuild.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "preview": "node preview.js"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
@@ -16,9 +17,7 @@
     "@tabler/icons-react": "^3.31.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "express": "^4.21.2",
     "framer-motion": "^12.5.0",
-    "http": "^0.0.1-security",
     "lucide-react": "^0.477.0",
     "motion": "^12.5.0",
     "next": "15.2.2-canary.2",
@@ -26,8 +25,6 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react95": "^4.0.0",
-    "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1",
     "styled-components": "^6.1.15",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7"
