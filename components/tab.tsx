@@ -1,38 +1,35 @@
 "use client";
 
-import Image from "next/image";
 import { Tabs } from "./ui/tabs";
-import { useState } from "react";
 import { publicPath } from "@/lib/utils";
 
 export function TabsDemo() {
+  const animes = [
+    { src: publicPath("/img/animes/1.jpg"), color: " bg-green-500" },
+    { src: publicPath("/img/animes/2.jpg"), color: " bg-blue-500" },
+    { src: publicPath("/img/animes/7.jpg"), color: " bg-amber-500" },
+    { src: publicPath("/img/animes/4.jpg"), color: " bg-red-500" },
+    { src: publicPath("/img/animes/5.jpg"), color: " bg-yellow-500" },
+    { src: publicPath("/img/animes/6.jpg"), color: " bg-teal-500" },
+  ];
 
-  const [animes, setAnimes] = useState([
-    {src:publicPath('/img/animes/1.jpg'),color:' bg-green-500'},
-    {src:publicPath('/img/animes/2.jpg'),color:' bg-blue-500'},
-    {src:publicPath('/img/animes/7.jpg'),color:' bg-amber-500'},
-    {src:publicPath('/img/animes/4.jpg'),color:' bg-red-500'},
-    {src:publicPath('/img/animes/5.jpg'),color:' bg-yellow-500'},
-    {src:publicPath('/img/animes/6.jpg'),color:' bg-teal-500'},
-  ]);
+  const books = [
+    { src: publicPath("/img/books/1.jpg"), color: " bg-green-500" },
+    { src: publicPath("/img/books/2.jpg"), color: " bg-blue-500" },
+    { src: publicPath("/img/books/3.jpg"), color: " bg-amber-500" },
+    { src: publicPath("/img/books/4.jpg"), color: " bg-red-500" },
+    { src: publicPath("/img/books/5.jpg"), color: " bg-yellow-500" },
+    { src: publicPath("/img/books/6.jpg"), color: " bg-teal-500" },
+  ];
 
-  const [books, setBooks] = useState([
-    {src:publicPath('/img/books/1.jpg'),color:' bg-green-500'},
-    {src:publicPath('/img/books/2.jpg'),color:' bg-blue-500'},
-    {src:publicPath('/img/books/3.jpg'),color:' bg-amber-500'},
-    {src:publicPath('/img/books/4.jpg'),color:' bg-red-500'},
-    {src:publicPath('/img/books/5.jpg'),color:' bg-yellow-500'},
-    {src:publicPath('/img/books/6.jpg'),color:' bg-teal-500'},
-  ]);
-
-  const [games, setGames] = useState([
-    {src:publicPath('/img/games/1.jpg'),color:' bg-green-500'},
-    {src:publicPath('/img/games/2.jpg'),color:' bg-blue-500'},
-    {src:publicPath('/img/games/3.jpg'),color:' bg-amber-500'},
-    {src:publicPath('/img/games/6.jpg'),color:' bg-red-500'},
-    {src:publicPath('/img/games/5.png'),color:' bg-yellow-500'},
-    {src:publicPath('/img/games/7.jpg'),color:' bg-teal-500'},
-  ]);
+  const games = [
+    { src: publicPath("/img/games/1.jpg"), color: " bg-green-500" },
+    { src: publicPath("/img/games/2.jpg"), color: " bg-blue-500" },
+    { src: publicPath("/img/games/3.jpg"), color: " bg-amber-500" },
+    { src: publicPath("/img/games/6.jpg"), color: " bg-red-500" },
+    { src: publicPath("/img/games/5.png"), color: " bg-yellow-500" },
+    { src: publicPath("/img/games/7.jpg"), color: " bg-teal-500" },
+  ];
 
   const tabs = [
     {
@@ -41,7 +38,10 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-600 to-blue-900">
           <p>音乐</p>
-          <img  src={publicPath("/img/Imok.jpg")} className=" h-9/10 flex justify-self-center m-auto object-cover rounded-2xl duration-100 hover:scale-110 hover:-translate-y-5"/>
+          <img
+            src={publicPath("/img/Imok.jpg")}
+            className=" h-9/10 flex justify-self-center m-auto object-cover rounded-2xl duration-100 hover:scale-110 hover:-translate-y-5"
+          />
         </div>
       ),
     },
@@ -51,7 +51,7 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-600 to-blue-900">
           <p>游戏</p>
-          <DummyContent src={games}/>
+          <DummyContent src={games} />
         </div>
       ),
     },
@@ -61,7 +61,7 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-600 to-blue-900">
           <p>书籍</p>
-          <DummyContent src={books}/>
+          <DummyContent src={books} />
         </div>
       ),
     },
@@ -71,7 +71,7 @@ export function TabsDemo() {
       content: (
         <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-blue-600 to-blue-900">
           <p>动画</p>
-          <DummyContent src={animes}/>
+          <DummyContent src={animes} />
         </div>
       ),
     },
@@ -85,29 +85,29 @@ export function TabsDemo() {
 }
 
 interface src {
-  src:string,
-  color:string
+  src: string;
+  color: string;
 }
 
-const DummyContent = ({src}:{src:src[]}) => {
-
+const DummyContent = ({ src }: { src: src[] }) => {
   return (
     <div className=" flex-col items-center justify-center size-full rounded-2xl p-5 grid grid-cols-2 lg:grid-cols-3 gap-5">
-
-    {
-      src.map((item, index) => {
+      {src.map((item, index) => {
         return (
           <div className="h-9/10 w-full relative " key={index}>
             <div className=" absolute -top-10 h-13/10 overflow-hidden">
-              <div className={` ${item.color} absolute w-8/10 h-full -bottom-30 rotate-80 translate-17 rounded-2xl`}></div>
-              <img className=" relative object-cover w-full scale-75 -rotate-12 rounded-lg hover:-translate-y-5 duration-100 shadow-2xl" src={item.src} alt="" />
-              
+              <div
+                className={` ${item.color} absolute w-8/10 h-full -bottom-30 rotate-80 translate-17 rounded-2xl`}
+              ></div>
+              <img
+                className=" relative object-cover w-full scale-75 -rotate-12 rounded-lg hover:-translate-y-5 duration-100 shadow-2xl"
+                src={item.src}
+                alt=""
+              />
             </div>
           </div>
-        )
-      })
-    }
-
-  </div>
+        );
+      })}
+    </div>
   );
 };
