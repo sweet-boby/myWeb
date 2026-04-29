@@ -14,7 +14,6 @@ export function ThreeDCardDemo() {
           className="text-xl font-bold text-neutral-600 dark:text-white"
         >
           About Me
-          
         </CardItem>
         <CardItem
           // as="p"
@@ -22,15 +21,9 @@ export function ThreeDCardDemo() {
           className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
         >
           <div>
-          <p>
-            I am from Beijing, currently live in Guangdong. Me👇
-          </p>
-          <p>
-            我来自广西，现居住于广东
-
-          </p>
+            <p>I am from Guangxi, currently live in Guangdong. Me👇</p>
+            <p>我来自广西，现居住于广东</p>
           </div>
-
         </CardItem>
         <CardItem
           translateZ="100"
@@ -39,7 +32,7 @@ export function ThreeDCardDemo() {
           className="w-full mt-4"
         >
           <Image
-            src={publicPath("/img/wo2.png")}
+            src={"/img/wo2.png"}
             height="1000"
             width="1000"
             className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
@@ -53,7 +46,7 @@ export function ThreeDCardDemo() {
           className="w-full mt-4"
         >
           <Image
-            src={publicPath("/img/wo1.jpg")}
+            src={"/img/wo1.jpg"}
             height="1000"
             width="1000"
             className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
