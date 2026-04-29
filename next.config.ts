@@ -1,33 +1,24 @@
 import type { NextConfig } from "next";
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+const repoName = 'myWeb'
+const basePath = `/${repoName}`
 
 const nextConfig: NextConfig = {
   output: 'export',
-  basePath: '/myWeb',
-  assetPrefix: '/myWeb/',
+  basePath,
+  assetPrefix: `${basePath}/`,
   images: {
     unoptimized: true,
-    domains: ['images.unsplash.com', 'assets.aceternity.com'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'assets.aceternity.com' },
+    ],
   },
   eslint: {
     ignoreDuringBuilds: true,
   },
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.(js|jsx|ts|tsx)$/,
-      exclude: /node_modules/,
-      enforce: 'pre',
-      use: [
-        {
-          loader: join(__dirname, 'scripts', 'img-path-loader.mjs'),
-        },
-      ],
-    })
-    return config
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
   },
 };
 
