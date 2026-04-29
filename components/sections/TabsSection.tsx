@@ -16,7 +16,7 @@ function DummyContent({ images }: { images: FavoriteImage[] }) {
             />
             <img
               className="relative object-cover w-full scale-75 -rotate-12 rounded-lg hover:-translate-y-5 duration-100 shadow-2xl"
-              src={item.src}
+              src={publicPath(item.src)}
               alt=""
             />
           </div>
