@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import { Timeline } from "@/components/ui/timeline";
+import { publicPath } from "@/lib/utils";
 import Link from 'next/link';
 export function TimelineDemo() {
   const data = [
@@ -25,7 +26,7 @@ Finally, using the time series forecast and the optimization formula in the pape
             <a target="_blank" rel="noopener noreferrer">跳转到百度</a>
           </Link> */}
             <Image
-              src="/img/experience/sxjm1.jpg"
+              src={publicPath("/img/experience/sxjm1.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -34,7 +35,7 @@ Finally, using the time series forecast and the optimization formula in the pape
 
             />
             <Image
-              src="/img/experience/sxjm4.jpg"
+              src={publicPath("/img/experience/sxjm4.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -43,7 +44,7 @@ Finally, using the time series forecast and the optimization formula in the pape
 
             />
             <Image
-              src="/img/experience/sxjm2.png"
+              src={publicPath("/img/experience/sxjm2.png")}
               alt="startup template"
               width={500}
               height={500}
@@ -52,7 +53,7 @@ Finally, using the time series forecast and the optimization formula in the pape
 
             />
             <Image
-              src="/img/experience/sxjm3.jpg"
+              src={publicPath("/img/experience/sxjm3.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -77,7 +78,7 @@ Finally, using the time series forecast and the optimization formula in the pape
           </p>
           <div className="grid grid-cols-2 gap-4">
           <Image
-              src="/img/experience/sxjm7.jpg"
+              src={publicPath("/img/experience/sxjm7.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -85,7 +86,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/sxjm6.jpg"
+              src={publicPath("/img/experience/sxjm6.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -93,7 +94,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/sxjm9.png"
+              src={publicPath("/img/experience/sxjm9.png")}
               alt="startup template"
               width={500}
               height={500}
@@ -101,7 +102,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/sxjm8.png"
+              src={publicPath("/img/experience/sxjm8.png")}
               alt="startup template"
               width={500}
               height={500}
@@ -125,7 +126,7 @@ Finally, using the time series forecast and the optimization formula in the pape
           </p>
           <div className="grid grid-cols-2 gap-4">
           <Image
-              src="/img/experience/st1.png"
+              src={publicPath("/img/experience/st1.png")}
               alt="startup template"
               width={500}
               height={500}
@@ -133,7 +134,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-contain h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
                  <Image
-              src="/img/experience/st2.jpg"
+              src={publicPath("/img/experience/st2.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -141,7 +142,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className=" object-contain hover:scale-120 duration-300 rounded-lg  h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/st3.jpg"
+              src={publicPath("/img/experience/st3.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -149,7 +150,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-contain h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/st4.jpg"
+              src={publicPath("/img/experience/st4.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -157,7 +158,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-contain h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/st5.jpg"
+              src={publicPath("/img/experience/st5.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -165,7 +166,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-contain h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/st6.jpg"
+              src={publicPath("/img/experience/st6.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -196,7 +197,7 @@ Finally, using the time series forecast and the optimization formula in the pape
           </p>
           <div className="grid grid-cols-2 gap-4">
           <Image
-              src="/img/experience/xg.jpg"
+              src={publicPath("/img/experience/xg.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -204,7 +205,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-contain h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/xg2.jpg"
+              src={publicPath("/img/experience/xg2.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -212,7 +213,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-contain h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/xg3.jpg"
+              src={publicPath("/img/experience/xg3.jpg")}
               alt="startup template"
               width={500}
               height={500}
@@ -220,7 +221,7 @@ Finally, using the time series forecast and the optimization formula in the pape
               className="hover:scale-120 duration-300 rounded-lg object-contain h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
             />
             <Image
-              src="/img/experience/xg4.jpg"
+              src={publicPath("/img/experience/xg4.jpg")}
               alt="startup template"
               width={500}
               height={500}
