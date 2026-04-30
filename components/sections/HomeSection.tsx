@@ -20,10 +20,11 @@ export function HomeSection() {
           <img
             src={publicPath("/img/avatar1.jpg")}
             className="size-40 rounded-full m-[-15]"
+            alt="avatar"
           />
           <div className="text-2xl lg:text-5xl pl-10">
             <b>
-              I'm
+              I&apos;m
               <span className="px-2 text-blue-600 rounded-md">Blues Lee</span>
             </b>
             <div className="mt-5">

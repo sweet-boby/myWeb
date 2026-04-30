@@ -33,8 +33,6 @@ const iconMap: Record<string, IconType> = {
   TbMathMaxMin,
 };
 
-const Skeleton = () => <div className="h-10" />;
-
 export function BentoGridDemo() {
   return (
     <BentoGrid className="max-w-5xl mx-auto">
@@ -45,7 +43,6 @@ export function BentoGridDemo() {
             key={item.title}
             title={item.title}
             description={item.description}
-            header={<Skeleton />}
             icon={
               Icon ? <Icon className="h-10 w-10 text-blue-500" /> : undefined
             }

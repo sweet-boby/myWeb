@@ -41,6 +41,7 @@ export function TabsDemo() {
           <img
             src={publicPath("/img/Imok.jpg")}
             className=" h-9/10 flex justify-self-center m-auto object-cover rounded-2xl duration-100 hover:scale-110 hover:-translate-y-5"
+            alt=""
           />
         </div>
       ),

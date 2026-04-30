@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 export function KernelErrorPrompt() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -16,7 +16,7 @@ export function KernelErrorPrompt() {
   //     const containerRect = containerRef.current.getBoundingClientRect();
   //     const promptWidth = promptRef.current.offsetWidth;
   //     const promptHeight = promptRef.current.offsetHeight;
-      
+
   //     setPosition({
   //       x: containerRect.width / 2 - promptWidth / 2,
   //       y: containerRect.height / 2 - promptHeight / 2
@@ -26,67 +26,76 @@ export function KernelErrorPrompt() {
 
   // 鼠标按下事件处理函数
   // 鼠标按下事件处理函数
-    // 获取容器和提示框的矩形边界
+  // 获取容器和提示框的矩形边界
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     // 获取容器和提示框的矩形边界
     const containerRect = containerRef.current?.getBoundingClientRect();
     // 如果容器和提示框的矩形边界存在
     const promptRect = promptRef.current?.getBoundingClientRect();
-      // 设置拖拽状态为true
-    
+    // 设置拖拽状态为true
+
     // 如果容器和提示框的矩形边界存在
     if (containerRect && promptRect) {
       setIsDragging(true);
       // 计算相对于容器的偏移量
       dragOffset.current = {
-        x: e.clientX - containerRect.left - (promptRect.left - containerRect.left),
-        y: e.clientY - containerRect.top - (promptRect.top - containerRect.top)
+        x:
+          e.clientX -
+          containerRect.left -
+          (promptRect.left - containerRect.left),
+        y: e.clientY - containerRect.top - (promptRect.top - containerRect.top),
       };
     }
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (isDragging && containerRef.current && promptRef.current) {
-      const containerRect = containerRef.current.getBoundingClientRect();
-      // 计算相对于容器的位置
-      const newX = e.clientX - containerRect.left - dragOffset.current.x;
-      const newY = e.clientY - containerRect.top - dragOffset.current.y;
-      
-      setPosition({ x: newX, y: newY });
-      
-      if (clones.length === 0 || 
-          Math.abs(clones[clones.length-1].x - newX) > 10 ||
-          Math.abs(clones[clones.length-1].y - newY) > 10) {
-        setClones(prev => [...prev, { x: newX, y: newY }]);
-      }
-    }
-  };
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (isDragging && containerRef.current && promptRef.current) {
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const newX = e.clientX - containerRect.left - dragOffset.current.x;
+        const newY = e.clientY - containerRect.top - dragOffset.current.y;
 
-  const handleMouseUp = () => {
+        setPosition({ x: newX, y: newY });
+
+        setClones((prev) => {
+          if (
+            prev.length === 0 ||
+            Math.abs(prev[prev.length - 1].x - newX) > 10 ||
+            Math.abs(prev[prev.length - 1].y - newY) > 10
+          ) {
+            return [...prev, { x: newX, y: newY }];
+          }
+          return prev;
+        });
+      }
+    },
+    [isDragging],
+  );
+
+  const handleMouseUp = useCallback(() => {
     setIsDragging(false);
     setClones([]);
-  };
+  }, []);
 
   useEffect(() => {
     if (isDragging) {
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
+      };
     }
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [isDragging]);
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="relative flex items-center justify-center bg-[#0D7073] select-none  h-full w-full"
     >
       {/* Watermark */}
       <div className="pointer-events-none text-[20vh] leading-[0.8] text-white opacity-10 whitespace-pre text-center">
-        Windows{'\n'}95
+        Windows{"\n"}95
       </div>
 
       {/* Clones */}
@@ -97,15 +106,15 @@ export function KernelErrorPrompt() {
           style={{
             left: clone.x + "px",
             top: clone.y + "px",
-            transform: `translate(${i*2}px, ${i*2}px)`
+            transform: `translate(${i * 2}px, ${i * 2}px)`,
           }}
         >
           <div className="w-full bg-[#00007F] text-white p-[3px_4px] font-bold">
             Kernel Error
           </div>
           <div className="mt-3 h-[100px] flex flex-col justify-around items-center">
-              I swear AI will replace humans
-            <button  className="relative w-[120px] h-6 bg-[#BFBFBF] text-sm">
+            I swear AI will replace humans
+            <button className="relative w-[120px] h-6 bg-[#BFBFBF] text-sm">
               <span>OK</span>
               <BorderOverlay />
             </button>
@@ -117,21 +126,27 @@ export function KernelErrorPrompt() {
       <div
         ref={promptRef}
         className="absolute bottom-0  w-[300px] h-[142px] bg-[#BFBFBF] p-px shadow-[2px_2px_0_0_rgba(0,0,0,0.25)]"
-        style={{ 
+        style={{
           left: position.x + "px",
-          top: position.y + "px"
+          top: position.y + "px",
         }}
       >
-        <div 
+        <div
           className="w-full bg-[#00007F] text-white p-[3px_4px] font-bold cursor-move"
           onMouseDown={handleMouseDown}
         >
           Kernel Error
         </div>
         <div className="mt-3 h-[100px] flex flex-col justify-around items-center">
-          I swear AI will replace humans<br/>
+          I swear AI will replace humans
+          <br />
           AI会取代人类
-          <button onClick={()=>{window.open("/projects")}} className=" cursor-pointer relative w-[120px] h-6 bg-[#BFBFBF] text-sm">
+          <button
+            onClick={() => {
+              window.open("/projects");
+            }}
+            className=" cursor-pointer relative w-[120px] h-6 bg-[#BFBFBF] text-sm"
+          >
             <span>OK</span>
             <BorderOverlay />
           </button>
